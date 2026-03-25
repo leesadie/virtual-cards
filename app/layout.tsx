@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Caveat, Cormorant_Garamond, DM_Sans } from 'next/font/google';
+import { Caveat, Cormorant_Garamond, DM_Sans, JetBrains_Mono } from 'next/font/google';
 import "./globals.css";
 
 const caveat = Caveat({
@@ -19,6 +19,11 @@ const dmSans = DM_Sans({
   subsets: ["latin"]
 })
 
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"]
+})
+
 export const metadata: Metadata = {
   title: "Thank You!",
   description: "A virtual thank you card.",
@@ -31,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${caveat.variable} ${cormorant.variable} ${dmSans.variable}`}>
+      <body className={`${caveat.variable} ${cormorant.variable} ${dmSans.variable} ${jetbrains.variable}`}>
         {children}
       </body>
     </html>

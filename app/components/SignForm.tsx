@@ -31,7 +31,7 @@ export default function SignForm({ cardId, existingNames }: SignFormProps) {
         const { error } = await supabase.from('signatures').insert({
             card_id: cardId,
             name: name.trim(),
-            pers_message: message.trim() || null,
+            personal_message: message.trim() || null,
         })
 
         if (error) {
@@ -130,6 +130,7 @@ export default function SignForm({ cardId, existingNames }: SignFormProps) {
                     tracking-wide py-4
                     rounded-xl
                     hover:bg-ink/80
+                    cursor-pointer
                     disabled:opacity-40
                     disabled:cursor-not-allowed
                     transition

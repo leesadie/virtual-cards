@@ -22,6 +22,7 @@
   --font-handwriting: 'Caveat', cursive;
   --font-serif: 'Cormorant Garamond', serif;
   --font-sans: 'DM Sans', sans-serif;
+  --font-mono: 'Jetbrains Mono', sans-serif;
 
   /* Animations */
   --animate-fade-in: fade-in 0.5s ease-out forwards;
@@ -74,4 +75,38 @@ html, body {
 .sig-item {
   animation: fade-in 0.4s ease-out forwards;
   opacity: 0;
+}
+
+/* Export by print */
+@media print {
+  /* Hide everything except card */
+  .no-print { display: none !important; }
+
+  /* Reset page margin */
+  @page { margin: 0.5in; }
+
+  /* Back and front of card stacked for print */
+  .card-scene { display: block !important; }
+
+  .card-flipper {
+    transform: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem;
+  }
+
+  .card-face {
+    position: relative !important;
+    transform: none !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    backface-visibility: visible !important;
+    -webkit-backface-visibility: visible !important;
+    break-inside: avoid;
+  }
+
+  /* Page break between front and back */
+  .card-face--back {
+    break-before: page;
+  }
 }

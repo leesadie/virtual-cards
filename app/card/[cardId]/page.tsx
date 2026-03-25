@@ -2,15 +2,17 @@ import { notFound } from "next/navigation";
 import { supabase } from "@/app/lib/supabase";
 import EnvelopeViewer from "@/app/components/EnvelopeViewer";
 
-export default async function Cardpage({
+export default async function CardPage({
     params,
 }: {
-    params: { cardId: string }
+    params: Promise<{ cardId: string }>
 }) {
+    const { cardId } = await params
+
     const { data: card, error } = await supabase
         .from('cards')
         .select('*')
-        .eq('id', params.cardId)
+        .eq('id', cardId)
         .single()
 
     if (error || !card) notFound()
@@ -18,11 +20,11 @@ export default async function Cardpage({
     const { data: signatures } = await supabase
         .from('signatures')
         .select('*')
-        .eq('card_id', params.cardId)
+        .eq('card_id', cardId)
         .order('created_at', { ascending: true })
 
     return (
-        <main className="min-h-screen bg-(--cream) flex items-center justify-center py-16 px-4">
+        <main className="bg-(--cream)">
             <EnvelopeViewer card={card} signatures={signatures ?? []} />
         </main>
     )
