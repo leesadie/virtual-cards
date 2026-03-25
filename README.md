@@ -4,7 +4,7 @@
 
 ## About
 
-This is a very rough prototype for the purpose of sending collaborative thank you cards to the guest speakers of a course (in which I am a teaching assistant), where each student can sign their name and optionally add a message to each speaker. 
+This is a very rough prototype for the purpose of sending collaborative thank you cards to the guest speakers of the COGS 401 course (in which I am a teaching assistant), where each student can sign their name and optionally add a message to each speaker. 
 
 **Features**
 
@@ -19,9 +19,9 @@ The following have been implemented:
 **Limitations**
 
 The following are obviously non-ideal, and would need to be fixed were this app to be used beyond this course:
-- Card covers are just being uploaded as SVGs and recipient names added manually in [supabase](https://supabase.com/). A dedicated admin page to upload cards would probably be a more robust, long-term approach.
+- Card covers are just being uploaded as SVGs and recipient names added manually to the database. A dedicated admin page to upload cards would probably be a more robust, long-term approach.
 - Students currently can't edit their messages after submitting the sign form.
-- No authentication - in principle anyone can access each sign page and the card page if card IDs are known (a clear security violation).
+- No authentication - in principle anyone can access each sign page and card page if card IDs are known (a clear security violation).
 
 **Stack**
 
@@ -52,6 +52,7 @@ This project uses [Next.js](https://nextjs.org/) and [Supabase](https://supabase
 ## Usage
 
 **Viewing and signing**
+
 Students can sign a given card with the base URL (https://virtual-card.vercel.app) and `/sign/[cardId]`. Recipients can view their signed card with the base URL and `/card/[cardId]`.
 
 **Running locally**
@@ -66,4 +67,4 @@ npm run dev
 
 ## Contributing
 
-Contributions are welcome! See [Contributing](CONTRIBUTING) and the [Code of Conduct](CODE_OF_CONDUCT.md) for more. COGS 401 students interested in contributing should fork the repo and send a pull request.
+Contributions are welcome! See [Contributing](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md) for more. COGS 401 students interested in contributing should fork the repo and send a pull request.
