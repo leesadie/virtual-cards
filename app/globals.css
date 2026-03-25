@@ -62,14 +62,14 @@ html, body {
 
 .card-face--back { transform: rotateY(180deg); }
 
-/* Envelope flap */
+/* Envelope flap 
 .envelope-flap {
   transform-origin: top center;
   transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
 }
 
-.envelope-flap.is-open { transform: rotateX(-180deg); }
+.envelope-flap.is-open { transform: rotateX(-180deg); } */
 
 /* Signatures */
 .sig-item {

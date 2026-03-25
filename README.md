@@ -25,7 +25,12 @@ The following are obviously non-ideal, and would need to be fixed were this app 
 
 **Stack**
 
-This project uses [Next.js](https://nextjs.org/) and [Supabase](https://supabase.com/) with [Tailwind CSS](https://tailwindcss.com/), is written in TypeScript, and is deployed with [Vercel](https://vercel.com/).
+- Frontend: [Next.js](https://nextjs.org/)
+- Backend: [Supabase](https://supabase.com/)
+- Styling: [Tailwind CSS](https://tailwindcss.com/)
+- Animation: [Motion](https://motion.dev/) (prev Framer Motion)
+- Written in TypeScript
+- Deployed with [Vercel](https://vercel.com/)
 
 ## Database schema
 
@@ -67,4 +72,4 @@ npm run dev
 
 ## Contributing
 
-Contributions are welcome! COGS 401 students interested in contributing should fork the repo and send a pull request (the main branch is protected). See [Contributing](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md) for more.
+Contributions are welcome! COGS 401 students interested in contributing should fork the repo and send a pull request (note the main branch is protected). See [Contributing](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md) for more.
