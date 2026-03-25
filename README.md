@@ -67,4 +67,4 @@ npm run dev
 
 ## Contributing
 
-Contributions are welcome! See [Contributing](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md) for more. COGS 401 students interested in contributing should fork the repo and send a pull request.
+Contributions are welcome! COGS 401 students interested in contributing should fork the repo and send a pull request (the main branch is protected). See [Contributing](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md) for more.
