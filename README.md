@@ -58,7 +58,7 @@ The following are obviously non-ideal, and would need to be fixed were this app 
 
 **Viewing and signing**
 
-Students can sign a given card with the base URL (https://virtual-card.vercel.app) and `/sign/[cardId]`. Recipients can view their signed card with the base URL and `/card/[cardId]`.
+Students can sign a given card with the base URL (https://virtual-thank-you.vercel.app) and `/sign/[cardId]`. Recipients can view their signed card with the base URL and `/card/[cardId]`.
 
 **Running locally**
 ```bash
