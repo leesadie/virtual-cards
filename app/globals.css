@@ -54,11 +54,11 @@ html, body {
 .card-flipper.is-flipped { transform: rotateY(180deg); }
 
 .card-face {
-  /* position: absolute; */
+  position: absolute;
   width: 100%;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-} 
+}
 
 .card-face--back { transform: rotateY(180deg); }
 
