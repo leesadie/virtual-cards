@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Card, Signature } from "../lib/supabase";
 
@@ -14,6 +14,7 @@ type Stage = 'closed' | 'opening' | 'risen' | 'flipped'
 export default function EnvelopeViewer({ card, signatures }: EnvelopeViewerProps) {
     const [stage, setStage] = useState<Stage>('closed')
     const [cardHeight, setCardHeight] = useState<number>(0)
+    const [backHeight, setBackHeight] = useState<number>(0)
     const frontRef = useRef<HTMLDivElement>(null)
     const backRef = useRef<HTMLDivElement>(null)
 
@@ -33,6 +34,19 @@ export default function EnvelopeViewer({ card, signatures }: EnvelopeViewerProps
     const isRisen = stage === 'risen' || stage === 'flipped'
     const isFlipped = stage === 'flipped'
 
+    useEffect(() => {
+        const measure = () => {
+            if (backRef.current) {
+            setBackHeight(backRef.current.scrollHeight)
+            }
+        }
+
+        measure()
+        window.requestAnimationFrame(measure)
+    }, [signatures, isFlipped])
+
+    const maxHeight = Math.max(cardHeight, backHeight)
+
     return (
         <div className="min-h-screen w-full flex flex-col items-center justify-center px-6">
             <div className="w-full max-w-lg flex flex-col items-center gap-5">
@@ -48,7 +62,7 @@ export default function EnvelopeViewer({ card, signatures }: EnvelopeViewerProps
                 <div 
                     className="relative w-full"
                     style={{ 
-                        height: isRisen ? cardHeight || 'auto' : 380,
+                        height: isRisen ? 'auto' : 380,
                         transition: 'height 0.5s ease',
                         overflow: isRisen ? 'visible' : 'hidden',
                      }}
@@ -59,17 +73,17 @@ export default function EnvelopeViewer({ card, signatures }: EnvelopeViewerProps
                             <motion.div
                                 className="w-full card-scene cursor-pointer"
                                 style={{
-                                    position: isRisen ? 'relative' : 'absolute',
+                                    position: 'relative',
                                     inset: 0,
                                 }}
-                                initial={{ y: 80, opacity: 0 }}
-                                animate={isRisen ? { y: 0, opacity: 1} : { y: 60, opacity: 0 } }
+                                initial={{ y: 80, opacity: 0, scale: 0.96 }}
+                                animate={isRisen ? { y: 0, opacity: 1, scale: 1 } : { y: 60, opacity: 0 } }
                                 transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
                                 onClick={handleCardClick}
                             >
                                 <div
                                     className={`card-flipper ${isFlipped ? 'is-flipped' : ''}`}
-                                    style={{ minHeight: cardHeight || 'auto' }}
+                                    style={{ height: maxHeight }}
                                 >
                                     <div className="card-face" ref={frontRef}>
                                         <div
@@ -197,147 +211,6 @@ export default function EnvelopeViewer({ card, signatures }: EnvelopeViewerProps
                             </motion.div>
                         )}
                     </AnimatePresence>
-
-                    {/* {isOpen && (
-                        <div
-                            className="absolute inset-0 w-full card-scene cursor-pointer"
-                            style={{
-                                opacity: isRisen ? 1 : 0,
-                                transition: 'transform 0.8s cubic-bezier(0.4,0,0.2,1), opacity 0.6s ease',
-                                transform: isRisen ? 'translateY(0)' : 'translateY(20px)',
-                                marginBottom: isRisen ? '16px' : '0',
-                            }}
-                            onClick={handleCardClick}
-                        >
-                            <div 
-                                className={`card-flipper ${isFlipped ? 'is-flipped' : ''}`}
-                                style={{ minHeight: cardHeight || 'auto' }}
-                            >
-                                <div className="card-face" ref={frontRef}>
-                                    <div 
-                                        className="rounded-2xl overflow-hidden"
-                                        style={{ boxShadow: '0 12px 40px rgba(0,0,0,0.15)' }}
-                                    >
-                                    <img
-                                        src={card.front_image_url}
-                                        alt={`Card for ${card.recipient_name}`}
-                                        className="w-full h-auto block"
-                                        onLoad={() => {
-                                            if (frontRef.current) {
-                                                setCardHeight(frontRef.current.offsetHeight)
-                                            }
-                                        }}
-                                    />
-                                    </div>
-                                </div>
-                                <div className="card-face card-face--back" ref={backRef}>
-                                    <CardBack card={card} signatures={signatures} />
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Envelope body - fades out after card rises 
-                    <div
-                        style={{
-                            opacity: isRisen ? 0 : 1,
-                            pointerEvents: isRisen ? 'none' : 'auto',
-                            transition: 'opacity 0.5s ease',
-                            visibility: isRisen ? 'hidden' : 'visible',
-                        }}
-                    >
-                        <div
-                            className="absolute inset-0 w-full rounded-2xl cursor-pointer select-none"
-                            style={{
-                                backgroundColor: 'var(--envelope-tan)',
-                                filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.13))',
-                            }}
-                            onClick={handleEnvelopeClick}
-                        >
-                            <svg
-                                viewBox="0 0 500 380"
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-full block"
-                                style={{ borderRadius: '16px', overflow: 'hidden' }}
-                            >
-                                {/* Envelope bg
-                                <rect 
-                                    width="500"
-                                    height="380"
-                                    fill="var(--envelope-tan)"
-                                    rx="16"
-                                />
-
-                                {/* Bottom flap triangle 
-                                <polygon
-                                    points="0,380 500,380 250,230"
-                                    fill="var(--envelope-shadow)"
-                                    opacity="0.6"
-                                />
-                            </svg>
-
-                            {/* Separate top flap 
-                            <div
-                                className={`envelope-flap ${isOpen ? 'is-open' : ''}`}
-                                style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    transformOrigin: 'top center',
-                                }}
-                            >
-                                <svg
-                                    viewBox="0 0 500 200"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-full block"
-                                >
-                                    <polygon 
-                                        points="0, 0 500, 0 250, 190"
-                                        fill="var(--envelope-shadow)"
-                                        opacity="0.85"
-                                    />
-                                    <line 
-                                        x1="0" y1="0" x2="250" y2="190"
-                                        stroke="var(--envelope-tan)"
-                                        strokeWidth="1"
-                                        opacity="0.3"
-                                    />
-                                    <line 
-                                        x1="500" y1="0" x2="250" y2="190"
-                                        stroke="var(--envelope-tan)"
-                                        strokeWidth="1"
-                                        opacity="0.3"
-                                    />
-                                </svg>
-                            </div>
-
-                            {/* Seal 
-                            {!isOpen && (
-                                <div
-                                    style={{
-                                        position: 'absolute',
-                                        top: '54%',
-                                        left: '50%',
-                                        transform: 'translate(-50%, -50%)',
-                                        zIndex: 20,
-                                    }}
-                                >
-                                    <span
-                                        className="font-semibold select-none"
-                                        style={{
-                                            fontSize: '6rem',
-                                            color: 'var(--sage)',
-                                            display: 'block',
-                                            lineHeight: 1
-                                        }}
-                                    >
-                                        *
-                                    </span>
-                                </div>
-                            )}
-                        </div>
-                    </div> */}
                 </div> 
 
                 {/* Recipient label */}
@@ -387,11 +260,11 @@ function CardBack({ card, signatures }: { card: Card; signatures: Signature[] })
                     No signatures yet.
                 </p>
             ) : (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="columns-2 space-y-4 gap-4">
                     {signatures.map((sig, i) => (
                         <div
                             key={sig.id}
-                            className="sig-item"
+                            className="sig-item break-inside-avoid"
                             style={{ animationDelay: `${i * 60}ms`}}
                         >
                             {sig.personal_message ? (
